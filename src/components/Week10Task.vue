@@ -95,7 +95,7 @@ const totalPages = computed(() => {
 
 const products = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
-  return filteredProducts.value.slice(start, start + pageSize);
+  return sortProduct.value.slice(start, start + pageSize);
 });
 
 const avgPriceOfFiltered = computed(() => {
@@ -103,6 +103,20 @@ const avgPriceOfFiltered = computed(() => {
 
   const total = filteredProducts.value.reduce((sum, p) => sum + p.price, 0);
   return total / filteredProducts.value.length;
+});
+
+const sortOrder = ref("none");
+
+const sortProduct = computed(() => {
+  const arr = [...filteredProducts.value];
+
+  if (sortOrder.value === "ascending") {
+    arr.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortOrder.value === "descending") {
+    arr.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  return arr;
 });
 </script>
 
@@ -154,6 +168,12 @@ const avgPriceOfFiltered = computed(() => {
         <option value="100 - 500">$101 - $500</option>
         <option value="500 - 1000">$500 - $1000</option>
         <option value="over 1000">Over $1000</option>
+      </select>
+
+      <select name="sort" id="sort" class="dropdown" v-model="sortOrder">
+        <option value="none">Default</option>
+        <option value="ascending">Name: A - Z</option>
+        <option value="descending">Name: Z - A</option>
       </select>
     </div>
 
