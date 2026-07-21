@@ -1,7 +1,6 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 
-const products = ref([]);
 const allProducts = ref([]);
 const loading = ref(true);
 const error = ref("");
@@ -21,80 +20,63 @@ const mapProduct = (product) => ({
 const fetchProducts = async () => {
   abortController = new AbortController();
   try {
-    const res = await fetch("https://dummyjson.com/products", {
+    const res = await fetch("https://dummyjson.com/products?limit=0", {
       signal: abortController.signal,
     });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch products");
-    }
+    if (!res.ok) throw new Error("Failed to fetch products");
 
     const data = await res.json();
-
-    console.log(data);
-
-    const mapped = data.products.map(mapProduct);
-
-    allProducts.value = mapped;
-    products.value = mapped;
+    allProducts.value = data.products.map(mapProduct);
   } catch (err) {
     if (err.name !== "AbortError") {
       error.value = err.message;
-      console.error(err);
     }
   } finally {
     loading.value = false;
   }
 };
 
-onMounted(() => {
-  fetchProducts();
-});
-
-onUnmounted(() => {
-  if (abortController) {
-    abortController.abort();
-  }
-});
+onMounted(() => fetchProducts());
+onUnmounted(() => abortController?.abort());
 
 const searchProduct = ref("");
-const hasSearched = ref(false);
 const selectedCategory = ref("all");
 
-let abortfetch = null;
-let timerId = null;
+const currentPage = ref(1);
+const pageSize = 12;
 
-watch([searchProduct, selectedCategory], async ([search, category]) => {
-  clearTimeout(timerId);
-  abortfetch?.abort();
+watch([searchProduct, selectedCategory], () => {
+  currentPage.value = 1;
+});
 
-  const run = async () => {
-    abortfetch = new AbortController();
+const filteredProducts = computed(() => {
+  let result = allProducts.value;
 
-    try {
-      let url = "https://dummyjson.com/products";
-      if (search.length >= 3) {
-        url = `https://dummyjson.com/products/search?q=${encodeURIComponent(search)}`;
-      } else if (category !== "all") {
-        url = `https://dummyjson.com/products/category/${encodeURIComponent(category)}?limit=0`;
-      }
-
-      const res = await fetch(url, { signal: abortfetch.signal });
-      if (!res.ok) throw new Error("Failed to fetch products");
-
-      const data = await res.json();
-      products.value = data.products.map(mapProduct);
-      hasSearched.value = search.length > 2;
-    } catch (err) {
-      if (err.name !== "AbortError") error.value = err.message;
-    }
-  };
-
-  if (search.length >= 2) {
-    timerId = setTimeout(run, 300); // debounce only the search path
-  } else {
-    run();
+  if (selectedCategory.value !== "all") {
+    result = result.filter((p) => p.category === selectedCategory.value);
   }
+
+  if (searchProduct.value.length >= 2) {
+    const q = searchProduct.value.toLowerCase();
+    result = result.filter((p) => p.name.toLowerCase().includes(q));
+  }
+
+  return result;
+});
+
+const hasSearched = computed(() => searchProduct.value.length >= 2);
+
+const hasFiltered = computed(() => {
+  return hasSearched.value || selectedCategory.value !== "all";
+});
+
+const totalPages = computed(() => {
+  return Math.max(1, Math.ceil(filteredProducts.value.length / pageSize));
+});
+
+const products = computed(() => {
+  const start = (currentPage.value - 1) * pageSize;
+  return filteredProducts.value.slice(start, start + pageSize);
 });
 </script>
 
@@ -127,7 +109,7 @@ watch([searchProduct, selectedCategory], async ([search, category]) => {
       <option value="furniture">Furniture</option>
       <option value="smartphones">Smartphones</option>
       <option value="womens-jewellery">women-Jewellery</option>
-      <option value="Vehicle">Vehicle</option>
+      <option value="vehicle">Vehicle</option>
       <option value="sports-accessories">Sports-Accessories</option>
       <option value="kitchen-accessories">Kitchen-Accessories</option>
       <option value="mens-watches">Mens-Watches</option>
@@ -158,9 +140,18 @@ watch([searchProduct, selectedCategory], async ([search, category]) => {
       </div>
     </div>
 
-    <p v-else-if="hasSearched && products.length === 0" class="no-results">
-      No products found for {{ searchProduct }}
+    <p class="filteredProd" v-if="hasFiltered">
+      {{ filteredProducts.length }} products for
+      {{ searchProduct || selectedCategory }} found.
     </p>
+
+    <div class="pageChange">
+      <button :disabled="currentPage === 1" @click="currentPage--">Prev</button>
+      <p class="page">{{ currentPage }} / {{ totalPages }}</p>
+      <button :disabled="currentPage === totalPages" @click="currentPage++">
+        Next
+      </button>
+    </div>
   </section>
 </template>
 
@@ -217,8 +208,13 @@ input {
   margin: 0 auto 0.5rem;
   border: 2px solid #000;
   border-radius: 0.5rem;
-
   font-size: 1.3rem;
+}
+
+.filteredProd {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .products {
@@ -232,6 +228,7 @@ input {
   padding: 1rem;
   background-color: rgb(152, 151, 151);
   border-radius: 0.5rem;
+  margin-top: 1rem;
 }
 
 .product .namePrice,
@@ -263,5 +260,25 @@ input {
   font-size: 1.2rem;
   color: #555;
   padding: 2rem 0;
+}
+
+.pageChange {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.pageChange button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.pageChange .page {
+  font-size: 1rem;
+  font-weight: bold;
 }
 </style>
