@@ -82,7 +82,11 @@ const filteredProducts = computed(() => {
 const hasSearched = computed(() => searchProduct.value.length >= 2);
 
 const hasFiltered = computed(() => {
-  return hasSearched.value || selectedCategory.value !== "all";
+  return (
+    hasSearched.value ||
+    selectedCategory.value !== "all" ||
+    selectPriceRange.value !== ""
+  );
 });
 
 const totalPages = computed(() => {
@@ -92,6 +96,13 @@ const totalPages = computed(() => {
 const products = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
   return filteredProducts.value.slice(start, start + pageSize);
+});
+
+const avgPriceOfFiltered = computed(() => {
+  if (filteredProducts.value.length === 0) return 0;
+
+  const total = filteredProducts.value.reduce((sum, p) => sum + p.price, 0);
+  return total / filteredProducts.value.length;
 });
 </script>
 
@@ -171,10 +182,13 @@ const products = computed(() => {
       </div>
     </div>
 
-    <p class="filteredProd" v-if="hasFiltered">
-      {{ filteredProducts.length }} products for
-      {{ searchProduct || selectedCategory }} found.
-    </p>
+    <div v-if="hasFiltered" class="filteredProd">
+      <p>
+        {{ filteredProducts.length }} products for
+        {{ searchProduct || selectedCategory }} found.
+      </p>
+      <p>Average Price ${{ avgPriceOfFiltered.toFixed($) }}</p>
+    </div>
 
     <div class="pageChange">
       <button :disabled="currentPage === 1" @click="currentPage--">Prev</button>
@@ -250,6 +264,10 @@ input {
 }
 
 .filteredProd {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
@@ -318,5 +336,31 @@ input {
 .pageChange .page {
   font-size: 1rem;
   font-weight: bold;
+}
+
+@media screen and (max-width: 900px) {
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .products {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  input {
+    width: 95%;
+  }
+
+  .selects {
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
 }
 </style>
