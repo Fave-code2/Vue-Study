@@ -41,6 +41,7 @@ onUnmounted(() => abortController?.abort());
 
 const searchProduct = ref("");
 const selectedCategory = ref("all");
+const selectPriceRange = ref("");
 
 const currentPage = ref(1);
 const pageSize = 12;
@@ -54,6 +55,20 @@ const filteredProducts = computed(() => {
 
   if (selectedCategory.value !== "all") {
     result = result.filter((p) => p.category === selectedCategory.value);
+  }
+
+  if (selectPriceRange.value === "under 50") {
+    result = result.filter((p) => p.price < 50);
+  } else if (selectPriceRange.value === "50 - 100") {
+    result = result.filter((p) => p.price < 100 && p.price > 50);
+  } else if (selectPriceRange.value === "100 - 500") {
+    result = result.filter((p) => p.price < 500 && p.price > 100);
+  } else if (selectPriceRange.value === "500 - 1000") {
+    result = result.filter((p) => p.price < 1000 && p.price > 500);
+  } else if (selectPriceRange.value === "over 1000") {
+    result = result.filter((p) => p.price > 1000);
+  } else {
+    result = result;
   }
 
   if (searchProduct.value.length >= 2) {
@@ -96,24 +111,40 @@ const products = computed(() => {
       />
     </div>
 
-    <select
-      name="category"
-      id="category"
-      class="dropdown"
-      v-model="selectedCategory"
-    >
-      <option value="all">All</option>
-      <option value="beauty">Beauty</option>
-      <option value="fragrances">Fragrances</option>
-      <option value="groceries">Groceries</option>
-      <option value="furniture">Furniture</option>
-      <option value="smartphones">Smartphones</option>
-      <option value="womens-jewellery">women-Jewellery</option>
-      <option value="vehicle">Vehicle</option>
-      <option value="sports-accessories">Sports-Accessories</option>
-      <option value="kitchen-accessories">Kitchen-Accessories</option>
-      <option value="mens-watches">Mens-Watches</option>
-    </select>
+    <div class="selects">
+      <select
+        name="category"
+        id="category"
+        class="dropdown"
+        v-model="selectedCategory"
+      >
+        <option value="all">All</option>
+        <option value="beauty">Beauty</option>
+        <option value="fragrances">Fragrances</option>
+        <option value="groceries">Groceries</option>
+        <option value="furniture">Furniture</option>
+        <option value="smartphones">Smartphones</option>
+        <option value="womens-jewellery">women-Jewellery</option>
+        <option value="vehicle">Vehicle</option>
+        <option value="sports-accessories">Sports-Accessories</option>
+        <option value="kitchen-accessories">Kitchen-Accessories</option>
+        <option value="mens-watches">Mens-Watches</option>
+      </select>
+
+      <select
+        name="price"
+        id="price"
+        class="dropdown"
+        v-model="selectPriceRange"
+      >
+        <option value="">Select a price range</option>
+        <option value="under 50">Under $50</option>
+        <option value="50 - 100">$60 - $100</option>
+        <option value="100 - 500">$101 - $500</option>
+        <option value="500 - 1000">$500 - $1000</option>
+        <option value="over 1000">Over $1000</option>
+      </select>
+    </div>
 
     <div v-if="loading" class="loading">Loading...</div>
 
@@ -209,6 +240,13 @@ input {
   border: 2px solid #000;
   border-radius: 0.5rem;
   font-size: 1.3rem;
+}
+
+.selects {
+  display: flex;
+  gap: 1rem;
+  width: 80%;
+  margin: auto;
 }
 
 .filteredProd {
