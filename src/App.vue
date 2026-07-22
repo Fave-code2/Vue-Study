@@ -8,9 +8,11 @@
 // import WatchEffect from "./components/WatchEffect.vue";
 // import LifeCycleHook from "./components/LifeCycleHook.vue";
 // import Week9Task from "./components/Week9Task.vue";
-import Week10Task from "./components/Week10Task.vue";
+// import Week10Task from "./components/Week10Task.vue";
+// import PropsParent from "./components/props/PropsParent.vue";
+import UserCardParent from "./components/props/UserCardParent.vue";
 </script>
 
 <template>
-  <Week10Task />
+  <UserCardParent />
 </template>
