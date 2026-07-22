@@ -110,10 +110,19 @@ const sortOrder = ref("none");
 const sortProduct = computed(() => {
   const arr = [...filteredProducts.value];
 
-  if (sortOrder.value === "ascending") {
-    arr.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (sortOrder.value === "descending") {
-    arr.sort((a, b) => b.name.localeCompare(a.name));
+  switch (sortOrder.value) {
+    case "price-asc":
+      arr.sort((a, b) => a.price - b.price);
+      break;
+    case "price-desc":
+      arr.sort((a, b) => b.price - a.price);
+      break;
+    case "descending":
+      arr.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case "ascending":
+      arr.sort((a, b) => a.name.localeCompare(b.name));
+      break;
   }
 
   return arr;
@@ -172,6 +181,8 @@ const sortProduct = computed(() => {
 
       <select name="sort" id="sort" class="dropdown" v-model="sortOrder">
         <option value="none">Default</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
         <option value="ascending">Name: A - Z</option>
         <option value="descending">Name: Z - A</option>
       </select>
