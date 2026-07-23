@@ -11,13 +11,17 @@
 // import Week10Task from "./components/Week10Task.vue";
 // import PropsParent from "./components/props/PropsParent.vue";
 // import UserCardParent from "./components/props/UserCardParent.vue";
-import BaseButton from "./components/props/BaseButton.vue";
+// import BaseButton from "./components/props/BaseButton.vue";
+// import ParentComponent from "./components/emits/ParentComponent.vue";
+import EmitValParent from "./components/emits/EmitValParent.vue";
 </script>
 
 <template>
-  <BaseButton variant="primary" size="large"> Click Me </BaseButton>
+  <!-- <BaseButton variant="primary" size="large"> Click Me </BaseButton>
 
   <BaseButton variant="danger" :loading="true"> Submitting... </BaseButton>
 
-  <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton>
+  <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton> -->
+
+  <EmitValParent />
 </template>
