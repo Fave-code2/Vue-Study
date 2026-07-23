@@ -10,9 +10,14 @@
 // import Week9Task from "./components/Week9Task.vue";
 // import Week10Task from "./components/Week10Task.vue";
 // import PropsParent from "./components/props/PropsParent.vue";
-import UserCardParent from "./components/props/UserCardParent.vue";
+// import UserCardParent from "./components/props/UserCardParent.vue";
+import BaseButton from "./components/props/BaseButton.vue";
 </script>
 
 <template>
-  <UserCardParent />
+  <BaseButton variant="primary" size="large"> Click Me </BaseButton>
+
+  <BaseButton variant="danger" :loading="true"> Submitting... </BaseButton>
+
+  <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton>
 </template>
