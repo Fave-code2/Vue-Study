@@ -15,7 +15,8 @@
 // import ParentComponent from "./components/emits/ParentComponent.vue";
 // import EmitValParent from "./components/emits/EmitValParent.vue";
 // import CustomInputParent from "./components/emits/CustomInputParent.vue";
-import EmitParent from "./components/emits/EmitParent.vue";
+// import EmitParent from "./components/emits/EmitParent.vue";
+import Week11TaskParent from "./components/Week11TaskParent.vue";
 </script>
 
 <template>
@@ -25,5 +26,5 @@ import EmitParent from "./components/emits/EmitParent.vue";
 
   <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton> -->
 
-  <EmitParent />
+  <Week11TaskParent />
 </template>
