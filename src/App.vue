@@ -13,7 +13,9 @@
 // import UserCardParent from "./components/props/UserCardParent.vue";
 // import BaseButton from "./components/props/BaseButton.vue";
 // import ParentComponent from "./components/emits/ParentComponent.vue";
-import EmitValParent from "./components/emits/EmitValParent.vue";
+// import EmitValParent from "./components/emits/EmitValParent.vue";
+// import CustomInputParent from "./components/emits/CustomInputParent.vue";
+import EmitParent from "./components/emits/EmitParent.vue";
 </script>
 
 <template>
@@ -23,5 +25,5 @@ import EmitValParent from "./components/emits/EmitValParent.vue";
 
   <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton> -->
 
-  <EmitValParent />
+  <EmitParent />
 </template>
