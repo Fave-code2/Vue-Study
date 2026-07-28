@@ -2,6 +2,7 @@
 import Alert from "./Alert.vue";
 import Layout from "./Layout.vue";
 import Button from "./Button.vue";
+import TodoList from "./TodoList.vue";
 </script>
 
 <template>
@@ -50,4 +51,25 @@ import Button from "./Button.vue";
 
   <!-- Replaces fallback -->
   <Button>Custom Text</Button>
+
+  <!-- <TodoList>
+    <template #default="{ todo, index }">
+      <div>
+        <span>{{ index + 1 }}</span>
+        <span :class="{ done: todo.done }">{{ todo.text }}</span>
+      </div>
+    </template>
+  </TodoList> -->
+
+  <!-- Or destructure directly -->
+  <TodoList v-slot="{ todo }">
+    <strong>{{ todo.text }}</strong>
+  </TodoList>
 </template>
+
+<style scoped>
+.done {
+  text-decoration: line-through;
+  color: gray;
+}
+</style>
