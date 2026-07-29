@@ -17,8 +17,11 @@
 // import CustomInputParent from "./components/emits/CustomInputParent.vue";
 // import EmitParent from "./components/emits/EmitParent.vue";
 // import Week11TaskParent from "./components/Week11TaskParent.vue";
-// import Slot from "./components/slot/Slot.vue";
-import GrandParent from "./components/provideinject/GrandParent.vue";
+import Slot from "./components/slot/Slot.vue";
+// import GrandParent from "./components/provideinject/GrandParent.vue";
+
+import ThemeProvider from "./components/provideinject/ThemeProvider.vue";
+import Theme from "./components/provideinject/Theme.vue";
 </script>
 
 <template>
@@ -28,5 +31,9 @@ import GrandParent from "./components/provideinject/GrandParent.vue";
 
   <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton> -->
 
-  <GrandParent />
+  <!-- <ThemeProvider>
+    <Theme />
+  </ThemeProvider> -->
+
+  <Slot />
 </template>
