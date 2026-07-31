@@ -17,23 +17,26 @@
 // import CustomInputParent from "./components/emits/CustomInputParent.vue";
 // import EmitParent from "./components/emits/EmitParent.vue";
 // import Week11TaskParent from "./components/Week11TaskParent.vue";
-import Slot from "./components/slot/Slot.vue";
+// import Slot from "./components/slot/Slot.vue";
 // import GrandParent from "./components/provideinject/GrandParent.vue";
 
-import ThemeProvider from "./components/provideinject/ThemeProvider.vue";
-import Theme from "./components/provideinject/Theme.vue";
+// import ThemeProvider from "./components/provideinject/ThemeProvider.vue";
+// import Theme from "./components/provideinject/Theme.vue";
+import Switcher from "./components/dynamicComponent/Switcher.vue";
 </script>
 
 <template>
-  <!-- <BaseButton variant="primary" size="large"> Click Me </BaseButton>
+  <div class="body">
+    <!-- <BaseButton variant="primary" size="large"> Click Me </BaseButton>
 
   <BaseButton variant="danger" :loading="true"> Submitting... </BaseButton>
 
   <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton> -->
 
-  <!-- <ThemeProvider>
+    <!-- <ThemeProvider>
     <Theme />
   </ThemeProvider> -->
 
-  <Slot />
+    <Switcher />
+  </div>
 </template>
