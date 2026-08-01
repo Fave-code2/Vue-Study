@@ -22,7 +22,10 @@
 
 // import ThemeProvider from "./components/provideinject/ThemeProvider.vue";
 // import Theme from "./components/provideinject/Theme.vue";
-import Switcher from "./components/dynamicComponent/Switcher.vue";
+// import Switcher from "./components/dynamicComponent/Switcher.vue";
+
+import NotificationContainer from "./components/Week12Task/NotificationContainer.vue";
+import NotificationProvider from "./components/Week12Task/NotificationProvider.vue";
 </script>
 
 <template>
@@ -37,6 +40,8 @@ import Switcher from "./components/dynamicComponent/Switcher.vue";
     <Theme />
   </ThemeProvider> -->
 
-    <Switcher />
+    <NotificationProvider>
+      <NotificationContainer />
+    </NotificationProvider>
   </div>
 </template>

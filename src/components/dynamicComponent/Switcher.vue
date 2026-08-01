@@ -21,8 +21,8 @@ function switchTo(component) {
 <template>
   <div class="tabs">
     <button
-      v-for="tab in tabs"
-      :key="tab.name"
+      v-for="(tab, index) in tabs"
+      :key="index"
       @click="switchTo(tab.component)"
       :class="{ active: currentComponent === tab.component }"
     >
