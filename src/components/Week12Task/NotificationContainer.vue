@@ -1,5 +1,5 @@
 <script setup>
-import { inject, ref } from "vue";
+import { inject, ref, TransitionGroup } from "vue";
 import NotificationForm from "./NotificationForm.vue";
 const { showNotification, notifications, removeNotification } =
   inject("notification");
@@ -17,19 +17,21 @@ function updateForm() {
 
 <template>
   <div class="notification-container">
-    <div
-      v-for="notification in notifications"
-      :key="notification.id"
-      :class="['notification', `notification--${notification.type}`]"
-    >
-      {{ notification.message }}
-      <button
-        class="notification__close text-xl"
-        @click="removeNotification(notification.id)"
+    <TransitionGroup name="notification" tag="div">
+      <div
+        v-for="notification in notifications"
+        :key="notification.id"
+        :class="['notification', `notification--${notification.type}`]"
       >
-        x
-      </button>
-    </div>
+        {{ notification.message }}
+        <button
+          class="notification__close text-xl"
+          @click="removeNotification(notification.id)"
+        >
+          x
+        </button>
+      </div>
+    </TransitionGroup>
   </div>
   <NotificationForm
     v-model:message="message"
@@ -80,5 +82,22 @@ function updateForm() {
   font-size: 1.1rem;
   cursor: pointer;
   margin-left: 0.75rem;
+}
+
+/* Animation */
+.notification-enter-active,
+.notification-leave-active {
+  transition: all 0.3s ease;
+}
+.notification-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.notification-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.notification-leave-active {
+  position: absolute; /* prevents layout jump as others slide up */
 }
 </style>
