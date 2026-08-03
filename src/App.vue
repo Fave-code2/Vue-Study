@@ -24,24 +24,21 @@
 // import Theme from "./components/provideinject/Theme.vue";
 // import Switcher from "./components/dynamicComponent/Switcher.vue";
 
-import NotificationContainer from "./components/Week12Task/NotificationContainer.vue";
-import NotificationProvider from "./components/Week12Task/NotificationProvider.vue";
+// import NotificationContainer from "./components/Week12Task/NotificationContainer.vue";
+// import NotificationProvider from "./components/Week12Task/NotificationProvider.vue";
+
+import store from "./components/pinia/store.vue";
 </script>
 
 <template>
-  <div class="body">
-    <!-- <BaseButton variant="primary" size="large"> Click Me </BaseButton>
+  <!-- <BaseButton variant="primary" size="large"> Click Me </BaseButton>
 
   <BaseButton variant="danger" :loading="true"> Submitting... </BaseButton>
 
   <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton> -->
 
-    <!-- <ThemeProvider>
+  <!-- <ThemeProvider>
     <Theme />
   </ThemeProvider> -->
-
-    <NotificationProvider>
-      <NotificationContainer />
-    </NotificationProvider>
-  </div>
+  <store />
 </template>
