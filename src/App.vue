@@ -27,7 +27,9 @@
 // import NotificationContainer from "./components/Week12Task/NotificationContainer.vue";
 // import NotificationProvider from "./components/Week12Task/NotificationProvider.vue";
 
-import store from "./components/pinia/store.vue";
+import Navbar from "./components/pinia/Navbar.vue";
+import store from "./components/pinia/Store.vue";
+import UserLogin from "./components/pinia/UserLogin.vue";
 </script>
 
 <template>
@@ -40,5 +42,7 @@ import store from "./components/pinia/store.vue";
   <!-- <ThemeProvider>
     <Theme />
   </ThemeProvider> -->
+  <Navbar />
   <store />
+  <UserLogin />
 </template>
