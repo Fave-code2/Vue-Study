@@ -6,6 +6,7 @@ import { storeToRefs } from "pinia";
 const productStore = useProductStore();
 
 const { filteredProducts } = storeToRefs(productStore);
+const { viewProduct } = productStore;
 onMounted(() => productStore.fetchProducts());
 
 const truncate = (str, len = 20) =>
@@ -45,20 +46,25 @@ const truncate = (str, len = 20) =>
     <div
       v-for="product in filteredProducts"
       :key="product.id"
-      class="border border-gray-200 p-7 rounded-lg bg-white hover:shadow-2xs shadow-black transition-transform duration-200 hover:scale-105"
+      class="border-2 border-gray-200 p-7 rounded-lg bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)] transition-transform duration-200 hover:scale-105 cursor-pointer"
     >
       <img
         :src="product.image"
         :alt="product.title"
         class="w-full h-40 object-contain bg-gray-300 p-5 rounded-lg"
+        @click="viewProduct(product.id)"
       />
       <div class="mt-3 space-y-3">
-        <h2 class="font-bold">{{ truncate(product.title) }}</h2>
+        <h2 class="font-bold">
+          {{ truncate(product.title) }}
+        </h2>
         <p>{{ product.category }}</p>
 
         <div class="flex items-center justify-between">
           <p class="text-lg font-semibold">${{ product.price }}</p>
-          <button class="cursor-pointer h-10 w-10 rounded-lg bg-gray-300">
+          <button
+            class="cursor-pointer h-10 w-10 rounded-lg bg-gray-300 hover:bg-gray-400"
+          >
             <i class="pi pi-plus text-xl font-bold"></i>
           </button>
         </div>

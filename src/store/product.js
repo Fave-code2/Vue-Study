@@ -10,6 +10,7 @@ export const useProductStore = defineStore("product", () => {
   const sortByPrice = ref("");
   const loading = ref(false);
   const error = ref(null);
+  const selectedProduct = ref(null);
 
   // Getters
   const filteredProducts = computed(() => {
@@ -42,11 +43,25 @@ export const useProductStore = defineStore("product", () => {
       if (!res.ok) throw new Error("Failed to fetch products");
       products.value = await res.json();
       categories.value = [...new Set(products.value.map((p) => p.category))];
+      console.log(products.value);
     } catch (err) {
       error.value = err.message;
     } finally {
       loading.value = false;
     }
+  }
+
+  function getProductById(id) {
+    return products.value.find((p) => p.id === Number(id));
+  }
+
+  function viewProduct(id) {
+    selectedProduct.value = id;
+    console.log(id);
+  }
+
+  function backToList() {
+    selectedProduct.value = null;
   }
 
   return {
@@ -56,11 +71,15 @@ export const useProductStore = defineStore("product", () => {
     selectedCategory,
     sortByPrice,
     searchProduct,
+    selectedProduct,
 
     // Getters
     filteredProducts,
 
     // Action
     fetchProducts,
+    getProductById,
+    viewProduct,
+    backToList,
   };
 });
