@@ -28,8 +28,12 @@ const { searchProduct } = storeToRefs(getsearch);
     </div>
 
     <button
-      class="h-10 w-10 rounded-full border border-blue-200 cursor-pointer bg-gray-200"
+      class="h-10 w-10 rounded-full border border-blue-200 cursor-pointer bg-gray-200 relative"
     >
+      <span
+        class="absolute -top-1 -right-2 bg-blue-600 rounded-full w-5 h-5 flex items-center justify-center font-semibold text-white"
+        >0</span
+      >
       <i class="pi pi-shopping-cart text-lg"></i>
     </button>
   </header>
