@@ -27,22 +27,12 @@
 // import NotificationContainer from "./components/Week12Task/NotificationContainer.vue";
 // import NotificationProvider from "./components/Week12Task/NotificationProvider.vue";
 
-import Navbar from "./components/pinia/Navbar.vue";
-import store from "./components/pinia/Store.vue";
-import UserLogin from "./components/pinia/UserLogin.vue";
+// import Navbar from "./components/pinia/Navbar.vue";
+// import store from "./components/pinia/Store.vue";
+// import UserLogin from "./components/pinia/UserLogin.vue";
+import App from "./components/piniaTask/App.vue";
 </script>
 
 <template>
-  <!-- <BaseButton variant="primary" size="large"> Click Me </BaseButton>
-
-  <BaseButton variant="danger" :loading="true"> Submitting... </BaseButton>
-
-  <BaseButton variant="ghost" icon="⚙️"> Settings </BaseButton> -->
-
-  <!-- <ThemeProvider>
-    <Theme />
-  </ThemeProvider> -->
-  <Navbar />
-  <store />
-  <UserLogin />
+  <App />
 </template>
