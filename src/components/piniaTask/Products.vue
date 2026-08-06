@@ -51,6 +51,7 @@ const truncate = (str, len = 20) =>
       <img
         :src="product.image"
         :alt="product.title"
+        loading="lazy"
         class="w-full h-40 object-contain bg-gray-300 p-5 rounded-lg"
         @click="viewProduct(product.id)"
       />
