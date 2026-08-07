@@ -5,7 +5,7 @@ import { inject } from "vue";
 
 const cartStore = useTaskCartStore();
 const { cartItems } = storeToRefs(cartStore);
-const { removeItem, clearCart } = cartStore;
+const { removeItem, clearCart, increaseQty, decreaseQty } = cartStore;
 
 const { showNotification } = inject("notification");
 
@@ -42,7 +42,7 @@ const truncate = (str, len = 20) =>
         </button>
       </div>
 
-      <div v-for="item in cartItems" class="w-2/3">
+      <div v-for="item in cartItems" class="w-2/3" :key="item.id">
         <div
           class="flex items-center justify-between bg-gray-200 p-4 rounded-2xl mb-3"
         >
@@ -61,13 +61,19 @@ const truncate = (str, len = 20) =>
           <p
             class="flex items-center justify-around w-25 py px-3 border border-gray-500 rounded"
           >
-            <i class="pi pi-minus cursor-pointer w-10 h-5 text-center"></i>
+            <i
+              class="pi pi-minus cursor-pointer w-10 h-5 text-center"
+              @click="decreaseQty(item.id)"
+            ></i>
 
             <span class="min-w-6 text-center text-lg">
               {{ item.qty }}
             </span>
 
-            <i class="pi pi-plus cursor-pointer w-10 h-5 text-center"></i>
+            <i
+              class="pi pi-plus cursor-pointer w-10 h-5 text-center"
+              @click="increaseQty(item.id)"
+            ></i>
           </p>
 
           <div class="flex items-center gap-4">

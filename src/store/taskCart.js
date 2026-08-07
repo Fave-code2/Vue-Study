@@ -57,6 +57,23 @@ export const useTaskCartStore = defineStore("cart", () => {
     discountCode.value = null;
   }
 
+  function increaseQty(id) {
+    const existingProduct = cartItems.value.find((item) => item.id === id);
+
+    if (existingProduct) {
+      existingProduct.qty++;
+    }
+  }
+
+  function decreaseQty(id) {
+    const existingProduct = cartItems.value.find((item) => item.id === id);
+
+    if (existingProduct) {
+      existingProduct.qty--;
+      if (existingProduct.qty === 0) removeItem(id);
+    }
+  }
+
   return {
     // States
     cartItems,
@@ -69,5 +86,7 @@ export const useTaskCartStore = defineStore("cart", () => {
     addItem,
     removeItem,
     clearCart,
+    increaseQty,
+    decreaseQty,
   };
 });
