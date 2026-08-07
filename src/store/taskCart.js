@@ -26,6 +26,9 @@ export const useTaskCartStore = defineStore("cart", () => {
   );
 
   // Getters
+  const itemCount = computed(() =>
+    cartItems.value.reduce((total, item) => total + item.qty, 0),
+  );
 
   // Actions
   function addItem(product, qty = 1) {
@@ -60,6 +63,8 @@ export const useTaskCartStore = defineStore("cart", () => {
     discountCode,
 
     // Getters
+    itemCount,
+
     // Actions
     addItem,
     removeItem,

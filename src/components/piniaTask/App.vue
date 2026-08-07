@@ -3,6 +3,8 @@ import Header from "./Header.vue";
 import PiniaNavbar from "./PiniaNavbar.vue";
 import Products from "./Products.vue";
 import ProductDetail from "./ProductDetail.vue";
+import NotificationParent from "./NotificationParent.vue";
+import ToastContainer from "./ToastContainer.vue";
 
 import { useProductStore } from "@/store/product.js";
 import { storeToRefs } from "pinia";
@@ -15,7 +17,10 @@ const { selectedProduct } = storeToRefs(productStore);
   <div class="mx-20">
     <Header />
     <PiniaNavbar />
-    <Products v-if="!selectedProduct" />
-    <ProductDetail v-else />
+    <NotificationParent>
+      <Products v-if="!selectedProduct" />
+      <ProductDetail v-else />
+      <ToastContainer />
+    </NotificationParent>
   </div>
 </template>

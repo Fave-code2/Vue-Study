@@ -1,7 +1,10 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref, inject } from "vue";
 import { useProductStore } from "@/store/product";
 import { storeToRefs } from "pinia";
+import { useTaskCartStore } from "@/store/taskCart";
+
+const { showNotification } = inject("notification");
 
 const productStore = useProductStore();
 
@@ -11,6 +14,19 @@ onMounted(() => productStore.fetchProducts());
 
 const truncate = (str, len = 20) =>
   str.length > len ? str.slice(0, len) + "..." : str;
+
+const cartStore = useTaskCartStore();
+const { addItem } = cartStore;
+const itemJustAdd = ref(null);
+
+function handleAddItem(product) {
+  addItem(product, 1);
+  itemJustAdd.value = product.id;
+  showNotification(`${truncate(product.title)} added to cart`, "success");
+  setTimeout(() => {
+    itemJustAdd.value = null;
+  }, 2000);
+}
 </script>
 
 <!-- <template>
@@ -64,9 +80,20 @@ const truncate = (str, len = 20) =>
         <div class="flex items-center justify-between">
           <p class="text-lg font-semibold">${{ product.price }}</p>
           <button
-            class="cursor-pointer h-10 w-10 rounded-lg bg-gray-300 hover:bg-gray-400"
+            :class="[
+              'cursor-pointer h-10 w-10 rounded-lg text-xl transition-colors duration-900 font-semibold',
+              itemJustAdd === product.id
+                ? 'bg-green-400 text-white'
+                : 'bg-gray-300  hover:bg-gray-400',
+            ]"
+            @click="handleAddItem(product)"
           >
-            <i class="pi pi-plus text-xl font-bold"></i>
+            <i
+              :class="
+                (['text-xl', 'font-bold'],
+                itemJustAdd === product.id ? 'pi pi-check' : 'pi pi-plus')
+              "
+            ></i>
           </button>
         </div>
       </div>

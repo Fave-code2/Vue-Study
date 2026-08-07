@@ -1,10 +1,22 @@
 <script setup>
 import { useProductStore } from "@/store/product";
+import { useTaskCartStore } from "@/store/taskCart";
 import { storeToRefs } from "pinia";
 
 const getsearch = useProductStore();
+const cartStore = useTaskCartStore();
+console.log(cartStore.cartItems);
+
+import { watch } from "vue";
+
+watch(
+  () => cartStore.cartItems,
+  (val) => console.log("cart updated:", val),
+  { deep: true },
+);
 
 const { searchProduct } = storeToRefs(getsearch);
+const { itemCount } = storeToRefs(cartStore);
 </script>
 
 <template>
@@ -31,8 +43,11 @@ const { searchProduct } = storeToRefs(getsearch);
       class="h-10 w-10 rounded-full border border-blue-200 cursor-pointer bg-gray-200 relative"
     >
       <span
-        class="absolute -top-1 -right-2 bg-blue-600 rounded-full w-5 h-5 flex items-center justify-center font-semibold text-white"
-        >0</span
+        :class="[
+          'absolute -top-1 -right-2 w-6 h-6x rounded-full flex items-center justify-center font-semibold text-white',
+          itemCount ? 'bg-blue-600' : '',
+        ]"
+        >{{ itemCount }}</span
       >
       <i class="pi pi-shopping-cart text-lg"></i>
     </button>
