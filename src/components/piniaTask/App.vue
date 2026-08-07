@@ -5,6 +5,7 @@ import Products from "./Products.vue";
 import ProductDetail from "./ProductDetail.vue";
 import NotificationParent from "./NotificationParent.vue";
 import ToastContainer from "./ToastContainer.vue";
+import Cart from "./Cart.vue";
 
 import { useProductStore } from "@/store/product.js";
 import { storeToRefs } from "pinia";
@@ -21,6 +22,7 @@ const { selectedProduct } = storeToRefs(productStore);
       <Products v-if="!selectedProduct" />
       <ProductDetail v-else />
       <ToastContainer />
+      <Cart />
     </NotificationParent>
   </div>
 </template>

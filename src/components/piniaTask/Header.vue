@@ -5,15 +5,6 @@ import { storeToRefs } from "pinia";
 
 const getsearch = useProductStore();
 const cartStore = useTaskCartStore();
-console.log(cartStore.cartItems);
-
-import { watch } from "vue";
-
-watch(
-  () => cartStore.cartItems,
-  (val) => console.log("cart updated:", val),
-  { deep: true },
-);
 
 const { searchProduct } = storeToRefs(getsearch);
 const { itemCount } = storeToRefs(cartStore);

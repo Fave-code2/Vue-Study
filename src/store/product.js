@@ -43,7 +43,6 @@ export const useProductStore = defineStore("product", () => {
       if (!res.ok) throw new Error("Failed to fetch products");
       products.value = await res.json();
       categories.value = [...new Set(products.value.map((p) => p.category))];
-      console.log(products.value);
     } catch (err) {
       error.value = err.message;
     } finally {
