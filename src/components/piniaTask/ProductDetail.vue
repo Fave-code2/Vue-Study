@@ -1,16 +1,31 @@
 <script setup>
-import { computed } from "vue";
+import { computed, inject } from "vue";
 import { useProductStore } from "@/store/product";
+import { useTaskCartStore } from "@/store/taskCart";
 import { storeToRefs } from "pinia";
+
+// Notification
+const { showNotification } = inject("notification");
 
 // initialzing productStore data
 const productStore = useProductStore();
 const { selectedProduct } = storeToRefs(productStore);
 const { getProductById, backToList } = productStore;
 
+const cartStore = useTaskCartStore();
+const { addItem } = cartStore;
+
 const product = computed(() => {
   return getProductById(selectedProduct.value);
 });
+
+const truncate = (str, len = 20) =>
+  str.length > len ? str.slice(0, len) + "..." : str;
+
+const handleAddItem = (product) => {
+  addItem(product);
+  showNotification(`${truncate(product.title)} added to cart`, "success");
+};
 
 // const capitalize = (word) => {
 //   return word.slice(0, 1).toUpperCase() + word.slice(1);
@@ -85,6 +100,7 @@ const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
         <button
           class="w-full mt-5 bg-gray-300 rounded-md cursor-pointer py-2 font-semibold text-lg hover:bg-gray-400"
+          @click="handleAddItem(product)"
         >
           Add to Cart
         </button>

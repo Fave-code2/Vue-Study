@@ -56,7 +56,6 @@ export const useProductStore = defineStore("product", () => {
 
   function viewProduct(id) {
     selectedProduct.value = id;
-    console.log(id);
   }
 
   function backToList() {
