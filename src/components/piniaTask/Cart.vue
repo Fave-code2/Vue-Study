@@ -16,32 +16,53 @@ const handleRemoveItem = (product) => {
 
 const truncate = (str, len = 20) =>
   str.length > len ? str.slice(0, len) + "..." : str;
+
+const props = defineProps({
+  onBack: {
+    type: Function,
+    required: true,
+  },
+});
+
+const backToList = () => {
+  props.onBack();
+};
 </script>
 
 <template>
-  <div v-if="cartItems.length === 0" class="text-center text-3xl">
-    No Item in your Cart.
+  <div class="flex items-center justify-between mt-7">
+    <h1 class="text-3xl font-bold">Shopfront</h1>
+    <button
+      class="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-3 rounded-xl cursor-pointer"
+      @click="clearCart()"
+    >
+      Clear Cart
+    </button>
+  </div>
+
+  <!-- Back button -->
+  <div>
+    <button
+      @click="backToList()"
+      class="w-10 h-10 rounded-full border border-blue-200 cursor-pointer hover:bg-gray-200 mt-3"
+    >
+      <i class="pi pi-arrow-left"></i>
+    </button>
+  </div>
+
+  <div
+    v-if="cartItems.length === 0"
+    class="flex items-center justify-center gap-4 text-3xl pt-15 text-center"
+  >
+    <i class="pi pi-shopping-cart text-3xl"></i>
+    <h1>
+      Your Cart has {{ cartItems.length }}
+      {{ cartItems.length > 1 ? "items" : "item" }}
+    </h1>
   </div>
 
   <div v-else>
     <section>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-4 text-3xl mb-5">
-          <i class="pi pi-shopping-cart text-3xl"></i>
-          <h1>
-            Your Cart has {{ cartItems.length }}
-            {{ cartItems.length > 1 ? "items" : "item" }}
-          </h1>
-        </div>
-
-        <button
-          class="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-3 rounded-xl cursor-pointer"
-          @click="clearCart()"
-        >
-          Clear Cart
-        </button>
-      </div>
-
       <div v-for="item in cartItems" class="w-2/3" :key="item.id">
         <div
           class="flex items-center justify-between bg-gray-200 p-4 rounded-2xl mb-3"

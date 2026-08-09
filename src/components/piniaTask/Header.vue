@@ -8,6 +8,8 @@ const cartStore = useTaskCartStore();
 
 const { searchProduct } = storeToRefs(getsearch);
 const { itemCount } = storeToRefs(cartStore);
+
+const emit = defineEmits(["toggle-cart"]);
 </script>
 
 <template>
@@ -32,6 +34,7 @@ const { itemCount } = storeToRefs(cartStore);
 
     <button
       class="h-10 w-10 rounded-full border border-blue-200 cursor-pointer bg-gray-200 relative"
+      @click="emit('toggle-cart')"
     >
       <span
         :class="[

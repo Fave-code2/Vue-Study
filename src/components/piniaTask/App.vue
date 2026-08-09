@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import Header from "./Header.vue";
 import PiniaNavbar from "./PiniaNavbar.vue";
 import Products from "./Products.vue";
@@ -12,17 +13,27 @@ import { storeToRefs } from "pinia";
 
 const productStore = useProductStore();
 const { selectedProduct } = storeToRefs(productStore);
+
+const showCart = ref(false);
+
+const toggleCart = () => {
+  showCart.value = true;
+};
+
+const handleBack = () => {
+  showCart.value = false;
+};
 </script>
 
 <template>
   <div class="mx-20">
-    <Header />
-    <PiniaNavbar />
+    <Header @toggle-cart="toggleCart" v-if="!showCart" />
+    <PiniaNavbar v-if="!showCart" />
     <NotificationParent>
-      <Products v-if="!selectedProduct" />
-      <ProductDetail v-else />
+      <Products v-if="!showCart && !selectedProduct" />
+      <ProductDetail v-if="!showCart && selectedProduct" />
       <ToastContainer />
-      <Cart />
+      <Cart v-if="showCart" :onBack="handleBack" />
     </NotificationParent>
   </div>
 </template>
